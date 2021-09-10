@@ -1,10 +1,18 @@
 document.addEventListener("DOMContentLoaded", () => {
-  
   document.querySelector('form').addEventListener('submit', addTask);
 });
 
+const p = document.createElement('p');
+  p.id = 'noTasks'
+  document.querySelector('#tasks').appendChild(p);
+
+if (document.querySelector('li') === null) {
+  p.textContent = 'You have no items on your To Do List. Go play!';
+}
+
 function addTask (e) {
   e.preventDefault();
+  p.textContent = '';
   let form = document.querySelector('form')
   const li = document.createElement('li');
   const d = document.createElement('button');
@@ -13,27 +21,27 @@ function addTask (e) {
   const newTask = document.querySelector('#new-task-description');
   const person = e.target.person.value;
   li.textContent = (newTask.value + ` (${person})`)
-  if (this[2][0].value = 'high') {
+  if (e.target.priority.value === 'high') {
     li.style.color = 'red';
   }
-  if (this[2][1].value = 'medium') {
-    li.style.color = 'orange';
+  else if (e.target.priority.value === 'medium') {
+    li.style.color = 'magenta';
   }
-  if (this[2][2].value = 'low') {
+  else if (e.target.priority.value === 'low') {
     li.style.color = 'green';
   }
-  debugger;
   // console.log(e.target['new-task-description'].value);
   // console.log(newTask.value); 
   li.appendChild(d);
   form.reset();
+  newTask.focus();
   d.addEventListener('click', removeTask);
 }
 
 function removeTask (e) {
   e.target.parentNode.remove();
+  if (document.querySelector('li') === null) {
+    p.textContent = 'You have no items on your To Do List. Go play!';
+  }
 }
 
-//Questions:
-//How do I get the cursor back to the first box after submitting another line?
-//how to find values of priority to influence color
